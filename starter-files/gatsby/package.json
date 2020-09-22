@@ -19,7 +19,14 @@
       "wesbos"
     ],
     "rules": {
-      "react/prop-types": 0
+      "react/prop-types": 0,
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "endOfLine": "auto"
+        }
+      ]
     }
   },
   "dependencies": {
