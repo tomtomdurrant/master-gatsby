@@ -2,21 +2,34 @@ import { graphql } from 'gatsby';
 import React from 'react';
 import PizzaList from '../components/PizzaList';
 import ToppingsFilter from '../components/ToppingsFilter';
+import SEO from '../components/SEO';
 
-export default function PizzasPage({ data }) {
+export default function PizzasPage({ data, pageContext }) {
   const pizzas = data.pizzas.nodes;
   // console.log(pizzas);
   return (
     <>
+      <SEO
+        title={
+          pageContext.topping
+            ? `Pizzas with ${pageContext.topping}`
+            : `All Pizzas`
+        }
+      />
       <ToppingsFilter />
       <PizzaList pizzas={pizzas} />
     </>
   );
 }
 
+// regex: ""
+
 export const query = graphql`
-  query PizzaQuery {
-    pizzas: allSanityPizza {
+  # The topping is NOT required
+  query PizzaQuery($topping: [String]) {
+    pizzas: allSanityPizza(
+      filter: { toppings: { elemMatch: { name: { in: $topping } } } }
+    ) {
       nodes {
         name
         id
